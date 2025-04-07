@@ -1,0 +1,10 @@
+markdownify
+smolagents
+requests
+duckduckgo_search
+pandas
+smolagents[gradio]
+python-dotenv
+simple-salesforce
+
+# huggingface_hub
