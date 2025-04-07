@@ -41,10 +41,12 @@ def get_current_time_in_timezone(timezone: str) -> str:
         return f"Error fetching time for timezone '{timezone}': {str(e)}"
 
 @tool
-def get_active_insurance_policies() -> str:
-    """A tool that fetches the number of active insurance policies from Salesforce.
+def get_insurance_policies_by_status(status: str) -> str:
+    """A tool that fetches the number of insurance policies from Salesforce based on their status.
+    Args:
+        status: The status of the insurance policies to fetch (e.g., 'Active', 'Inactive').
     Returns:
-        A string indicating the number of active insurance policies.
+        A string indicating the number of insurance policies with the specified status.
     """
     try:
         # Load Salesforce credentials from environment variables
@@ -60,19 +62,19 @@ def get_active_insurance_policies() -> str:
         print("Connected to Salesforce.")
 
         # Query Salesforce for active insurance policies
-        # query = "SELECT COUNT() FROM InsurancePolicy__c WHERE Status__c = 'Active'"
-        query = "SELECT COUNT() FROM Account WHERE Type = 'Customer - Direct' "
+        query = f"SELECT COUNT() FROM InsurancePolicy__c WHERE Status__c = '{status}'"
+        # query = "SELECT COUNT() FROM Account WHERE Type = 'Customer - Direct' "
         print(f"Executing Salesforce query: {query}")
         result = sf.query(query)
 
         # Extract the count from the query result
-        active_policies_count = result['totalSize']
+        policies_count = result['totalSize']
 
-        print(f"Active insurance policies count: {active_policies_count}") 
+        print(f"The number of insurance policies with status '{status}' is: {policies_count}") 
 
-        return f"The number of active insurance policies is: {active_policies_count}"
+        return f"The number of insurance policies with status '{status}' is: {policies_count}"
     except Exception as e:
-        return f"Error fetching active insurance policies: {str(e)}"
+        return f"Error fetching insurance policies with status '{status}': {str(e)}"
 
 # final_answer = FinalAnswerTool()
 
